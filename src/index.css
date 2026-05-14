@@ -18,18 +18,13 @@
 }
 
 @layer components {
-  /**
-   * WORKSHEET LINE CONTAINER
-   * Creates a stable 120px tall row.
-   * Top/Bottom: Solid Dark Blue (#1e3a8a)
-   * Middle: Dotted Light Blue (#93c5fd)
-   */
+  /* THE STABLE ROW UNIT */
   .worksheet-line-container {
     @apply relative border-b-2 border-blue-900;
-    height: 120px; /* Fixed height prevents page shifting */
+    height: 120px; 
     display: flex;
-    align-items: flex-end; /* Anchors text to the baseline */
-    margin-bottom: 24px;   /* Consistent spacing between rows */
+    align-items: flex-end;
+    margin-bottom: 24px;
     background-image: repeating-linear-gradient(
       to right, 
       #93c5fd 0, #93c5fd 6px, 
@@ -37,10 +32,9 @@
     );
     background-repeat: repeat-x;
     background-size: 100% 1px;
-    background-position: center; /* Keeps dots exactly in the middle */
+    background-position: center;
   }
 
-  /* Creates the Top Solid line for every row */
   .worksheet-line-container::before {
     content: '';
     position: absolute;
@@ -51,25 +45,35 @@
     background-color: #1e3a8a;
   }
 
-  /* PRINT OPTIMIZATION */
+  /* PRINT ENGINE - Locks to 8.5x11 Letter Paper */
   @media print {
-    .no-print { display: none !important; }
-    
-    body { 
-      background: white !important; 
-      margin: 0 !important; 
+    body {
+      background: white !important;
+      margin: 0 !important;
       padding: 0 !important;
     }
 
-    .print-area { 
-      box-shadow: none !important;
-      border: none !important;
-      width: 100% !important;
-      max-width: 100% !important;
-      padding: 0.5in !important;
+    nav, aside, footer, .no-print {
+      display: none !important;
     }
 
-    /* Force browsers to print the background lines/colors */
+    .print-area {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 8.5in !important;
+      height: 11in !important;
+      padding: 0.5in !important;
+      margin: 0 !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+
+    @page {
+      size: letter;
+      margin: 0;
+    }
+
     * {
       -webkit-print-color-adjust: exact !important;
       print-color-adjust: exact !important;
