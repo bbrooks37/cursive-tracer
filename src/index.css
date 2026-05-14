@@ -1,37 +1,78 @@
 @import "tailwindcss";
 
+/* FONT REGISTRATION */
+@font-face {
+  font-family: 'LearningCurve';
+  src: url('./assets/fonts/LearningCurve.ttf') format('truetype');
+  font-display: swap;
+}
 @font-face {
   font-family: 'LearningCurveDashed';
   src: url('./assets/fonts/LearningCurveDashed.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SchoolScriptDashed';
+  src: url('./assets/fonts/SchoolScriptDashed.ttf') format('truetype');
   font-display: swap;
 }
 
 @layer components {
-  .trace-text {
-    font-family: 'LearningCurveDashed', cursive;
-    color: #334155;
-    letter-spacing: 0;
-    -webkit-font-smoothing: antialiased;
+  /**
+   * WORKSHEET LINE CONTAINER
+   * Creates a stable 120px tall row.
+   * Top/Bottom: Solid Dark Blue (#1e3a8a)
+   * Middle: Dotted Light Blue (#93c5fd)
+   */
+  .worksheet-line-container {
+    @apply relative border-b-2 border-blue-900;
+    height: 120px; /* Fixed height prevents page shifting */
+    display: flex;
+    align-items: flex-end; /* Anchors text to the baseline */
+    margin-bottom: 24px;   /* Consistent spacing between rows */
+    background-image: repeating-linear-gradient(
+      to right, 
+      #93c5fd 0, #93c5fd 6px, 
+      transparent 6px, transparent 12px
+    );
+    background-repeat: repeat-x;
+    background-size: 100% 1px;
+    background-position: center; /* Keeps dots exactly in the middle */
   }
 
-  .worksheet-paper {
-    background-color: white;
-    /* Layer 1: Solid Dark Blue Top */
-    /* Layer 2: Solid Dark Blue Bottom */
-    /* Layer 3: Light Blue Horizontal Dashed Midline */
-    background-image: 
-      linear-gradient(to bottom, #1e3a8a 2px, transparent 2px),
-      linear-gradient(to bottom, #1e3a8a 2px, transparent 2px),
-      repeating-linear-gradient(to right, #60a5fa 0px, #60a5fa 4px, transparent 4px, transparent 8px);
-    
-    /* Crucial: repeat-y for the solid lines, repeat-x for the dashed midline */
-    background-repeat: repeat-y, repeat-y, repeat;
+  /* Creates the Top Solid line for every row */
+  .worksheet-line-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: #1e3a8a;
   }
 
+  /* PRINT OPTIMIZATION */
   @media print {
     .no-print { display: none !important; }
-    .worksheet-paper { border: none !important; box-shadow: none !important; }
+    
+    body { 
+      background: white !important; 
+      margin: 0 !important; 
+      padding: 0 !important;
+    }
+
+    .print-area { 
+      box-shadow: none !important;
+      border: none !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      padding: 0.5in !important;
+    }
+
+    /* Force browsers to print the background lines/colors */
+    * {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
   }
 }
