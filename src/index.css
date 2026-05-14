@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'LearningCurveDashed';
+  src: url('./assets/fonts/LearningCurveDashed.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer components {
+  .trace-text {
+    font-family: 'LearningCurveDashed', cursive;
+    color: #334155;
+    letter-spacing: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .worksheet-paper {
+    background-color: white;
+    /* Layer 1: Solid Dark Blue Top */
+    /* Layer 2: Solid Dark Blue Bottom */
+    /* Layer 3: Light Blue Horizontal Dashed Midline */
+    background-image: 
+      linear-gradient(to bottom, #1e3a8a 2px, transparent 2px),
+      linear-gradient(to bottom, #1e3a8a 2px, transparent 2px),
+      repeating-linear-gradient(to right, #60a5fa 0px, #60a5fa 4px, transparent 4px, transparent 8px);
+    
+    /* Crucial: repeat-y for the solid lines, repeat-x for the dashed midline */
+    background-repeat: repeat-y, repeat-y, repeat;
+  }
+
+  @media print {
+    .no-print { display: none !important; }
+    .worksheet-paper { border: none !important; box-shadow: none !important; }
+  }
+}
